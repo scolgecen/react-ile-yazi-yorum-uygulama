@@ -11,12 +11,12 @@ import YaziDuzenle from "./components/YaziDuzenle";
 function App() {
   return (
     <Router>
-      <div className="main_wrapper">
+      <div className="main_wrapper" style={{backgroundColor:'#F0F8FF'}}>
         <header>
           
         </header>
         <div className="ui raised very padded text container segment">
-        
+        <h3 className="text-center mb-5" style={{color:'teal'}}>Yazı Yorum Uygulaması<hr /></h3>
           <Route path="/" exact component={YaziListesi} />
           <Route path="/posts/:id" exact  component={YaziDetayi} />
           <Route path="/yaziekle"  component={YaziEkle} />

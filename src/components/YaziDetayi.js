@@ -6,6 +6,8 @@ import { api } from "../api";
 import YaziYorumlari from "./YaziYorumlari";
 import { Link,useHistory } from "react-router-dom";
 import SilModal from "./SilModal";
+import { Button } from "semantic-ui-react";
+import Moment from "react-moment";
 
 
 
@@ -69,10 +71,14 @@ const  YaziDetayi = (props) =>{
                   <h2 className="ui header">{yaziDetayi.title} 
                       <span className="pull-right" 
                       style={{float:'right',fontSize:'12px',
-                      backgroundColor:'orange',color:'black',
+                      backgroundColor:'',color:'black',
                       padding:'2px 10px 2px 10px',borderRadius:'5px',
                       fontStyle:'italic'}}>
+                        Tarih : &nbsp;&nbsp;<b  style={{fontWeight:'bold',fontColor:'gray'}}><Moment format="DD MMMM YYYY">
                         {yaziDetayi.created_at}
+                      </Moment>
+                      </b>
+                       
                         </span>
                     </h2><hr></hr>
                     
