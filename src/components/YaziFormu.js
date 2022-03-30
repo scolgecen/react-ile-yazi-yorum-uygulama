@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from "react";
 import { api } from "../api";
-import { useParams, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
-const YaziFormu = (props) => {
+import {Link, withRouter,useParams, useHistory} from "react-router-dom";
+
+const YaziFormu = (props) =>{
+
   const [yazi, setYazi] = useState({
     title: "",
     content: "",
   });
-  const [hata, setHata] = useState("");
-
   const { id } = useParams();
   const history = useHistory();
 
-  const onInputChange = (event) =>
-    setYazi({ ...yazi, [event.target.name]: event.target.value });
 
-  const onFormSubmit = (event) => {
+  
+  const [hata, setHata] = useState("");
+  //console.log('yazi formu props : ',props)
+  const  onInputChange = (event) => setYazi({ ...yazi, [event.target.name]: event.target.value });
+
+  const onformSubmit = (event) =>{
     event.preventDefault();
     setHata("");
-
     if (props.yazi?.title) {
       api()
         .put(`/posts/${id}`, yazi)
@@ -39,6 +41,7 @@ const YaziFormu = (props) => {
           setHata("Başlık ve yazı içeriği alanları zorunludur.");
         });
     }
+    
   };
 
   useEffect(() => {
@@ -47,39 +50,42 @@ const YaziFormu = (props) => {
 
   return (
     <React.Fragment>
+
       {hata && (
         <div className="ui error message">
-          <div className="header">Hata</div>
-          <p>{hata}</p>
-        </div>
-      )}
-      <div className="ui form">
-        <div className="field">
-          <label>Yazı Başlığı</label>
 
-          <input
-            value={yazi.title}
-            type="text"
-            name="title"
-            onChange={onInputChange}
-          />
+        
+            <div className="header col-md-4">Hata !!!!</div>
+            <p>
+              {hata}
+            </p>
         </div>
-        <div className="field">
-          <label>Yazı İçeriği</label>
-          <textarea
-            value={yazi.content}
-            rows="3"
-            name="content"
-            onChange={onInputChange}
-          ></textarea>
-        </div>
-        <button className="ui primary button" onClick={onFormSubmit}>
-          Gönder
-        </button>
-        <button className="ui button">İptal Et</button>
-      </div>
-    </React.Fragment>
-  );
-};
+          
+        )}
 
-export default YaziFormu;
+      
+            <div className="ui form col-md-12" style={{marginBottom:'100px'}}>
+                <div className="field">
+                  <label>Yazı Başlığı</label>
+                      <input  
+                          value={yazi?.title}
+                          type="text"
+                          name="title"
+                          onChange={onInputChange} />
+                </div>
+
+            
+
+                <div className="field">
+                  <label>Yazı İçeriği</label>
+                  <textarea rows="6"  value={yazi.content} name="content" onChange={onInputChange}></textarea>
+                </div>
+                <button className="btn btn-success" style={{marginRight:'5px'}} onClick={onformSubmit}><i className="fa fa-save"></i> &nbsp;Kaydet</button>
+                <button className="btn btn-secondary">İptal Et</button><br />
+                <Link  to="/" className="btn btn-info text-white" style={{float:'right'}}><i className="fa fa-arrow-left"></i> &nbsp;anasayfa</Link>
+                
+            </div>
+        </React.Fragment>
+          )
+  }
+export default withRouter(YaziFormu);

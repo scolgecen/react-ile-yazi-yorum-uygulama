@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { api } from "../api";
 //import YorumFormu from './YorumFormu';
 //import { Link } from "react-router-dom";
 import YaziYorumlari from "./YaziYorumlari";
+import { Link,useHistory } from "react-router-dom";
+import SilModal from "./SilModal";
 
 
 
 const  YaziDetayi = (props) =>{
   
-
+ const history = useHistory();
   const {id} = props.match.params;
   const [yaziDetayi, setYaziDetayi] = useState({});
   const [yorumlar, setYorumlar] = useState([]);
@@ -19,7 +22,7 @@ const  YaziDetayi = (props) =>{
     /*************************/
     const handleCommentSubmit = (event,yorum) =>{
       event.preventDefault();
-        axios.post(`https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`,yorum)
+        api().post(`https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`,yorum)
               .then((response)=>{
         //console.log(response);
         setYorumlar([...yorumlar,response.data]);
@@ -35,8 +38,8 @@ const  YaziDetayi = (props) =>{
     useEffect(()=>{
 
         axios.all([
-          axios.get(`https://react-yazi-yorum.herokuapp.com/posts/${id}`),
-          axios.get(`https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`)
+          api().get(`https://react-yazi-yorum.herokuapp.com/posts/${id}`),
+          api().get(`https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`)
         ]).then(response =>{
           //console.log(response)
           setYaziDetayi(response[0].data)
@@ -59,7 +62,7 @@ const  YaziDetayi = (props) =>{
 
           });
           */
-        },[])
+        })
     /*************************/    
         return (
                 <React.Fragment>
@@ -72,8 +75,26 @@ const  YaziDetayi = (props) =>{
                         {yaziDetayi.created_at}
                         </span>
                     </h2><hr></hr>
+                    
+                   
                   <p>{yaziDetayi.content}</p>
-                
+                  <article className="pull-right mt-2 mb-5" style={{/*padding:'5px',border:'1px solid gray',borderLeft:'none',borderRight:'none'*/}} >
+                      <button type="button" className="ui button teal">
+                        <Link to={`/posts/${yaziDetayi.id}/edit`} style={{color:'white',textDecoration:'none'}}>
+                        <i className="fa fa-pencil"></i> &nbsp;Düzenle
+                        </Link>
+                      </button>
+                        &nbsp;
+                      {/*<button type="button" className="ui button red ">
+                        <Link to="/" style={{color:'white',textDecoration:'none'}}>
+                        <i className="fa fa-remove"></i> &nbsp; Sil
+                        </Link>
+                      </button>*/}
+                     <SilModal yazi={yaziDetayi} push={history.push} />
+                    </article>
+                    <br />
+                    
+                    
                  <YaziYorumlari yorumlar={yorumlar} handleSubmit={handleCommentSubmit} />
 
                

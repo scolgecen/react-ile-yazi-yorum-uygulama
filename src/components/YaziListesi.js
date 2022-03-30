@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-//import { api } from "../api";
+import { api } from "../api";
 import { Link } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
 
-const YaziListesi = (props) => {
+const YaziListesi = () => {
   const [yaziListesi, setYaziListesi] = useState([]);
 
   console.log({ yaziListesi });
 
   useEffect(()=>{
-    axios.get('https://react-yazi-yorum.herokuapp.com/posts')
+    api().get('/posts')
     .then(response=>{
       setYaziListesi(response.data)
     });
@@ -21,6 +21,7 @@ const YaziListesi = (props) => {
 
 
 <div className="ui relaxed divided list">
+
 {yaziListesi.map((yazi) =>{
 return (
  <div className="item" key={yazi.id}>

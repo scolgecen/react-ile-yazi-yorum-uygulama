@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 
@@ -16,7 +16,7 @@ const YorumFormu = (props) =>{
   return (<React.Fragment>
 
 <div className="col-md-12">
-                <h5 style={{marginTop:'50px',float:'right'}}>Yorum Yaz</h5> 
+                <h5 style={{marginTop:'50px',float:'left'}}>Yorum Yaz</h5> 
                 </div>
                 
                  
